@@ -1,2 +1,5 @@
 # CJOpenHud
-not functioning currently
+3 primary hud elements are functioning
+View
+Position
+Velocity
