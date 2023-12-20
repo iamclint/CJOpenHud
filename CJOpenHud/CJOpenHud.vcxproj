@@ -73,7 +73,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(SolutionDir)\$(ProjectName);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <TargetExt>.asi</TargetExt>
-    <OutDir>D:\Call of Duty 4 - Modern Warfare\miles</OutDir>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
