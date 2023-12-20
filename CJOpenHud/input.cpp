@@ -7,7 +7,7 @@ HWND WINAPI get_foreground_window()
 {
 	CJOpenHud* openhud = CJOpenHud::get_instance();
 	HWND orig = openhud->inst_hooks->hook_map["GetForegroundWindow"]->original(get_foreground_window)();
-	if (openhud->give_cursor)
+	if (openhud->want_input)
 		return 0; //tell the game that it isn't the foreground window
 	return orig;
 }
@@ -24,9 +24,9 @@ input::~input()
 
 bool input::handle_key(UINT key_code, UINT state)
 {
-	if (key_code == VK_ESCAPE && CJOpenHud::get_instance()->give_cursor)
+	if (key_code == VK_ESCAPE && CJOpenHud::get_instance()->want_input)
 	{
-		CJOpenHud::get_instance()->give_cursor = false;
+		CJOpenHud::get_instance()->want_input = false;
 		return true;
 	}
 	if (key_code == VK_F4)
@@ -36,7 +36,7 @@ bool input::handle_key(UINT key_code, UINT state)
 		if (state == WM_KEYUP)
 		{
 			
-			CJOpenHud::get_instance()->give_cursor = !CJOpenHud::get_instance()->give_cursor;
+			CJOpenHud::get_instance()->want_input = !CJOpenHud::get_instance()->want_input;
 			return true;
 		}
 	}
@@ -48,8 +48,8 @@ LRESULT __stdcall wndproc_hook(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 	if (!CJOpenHud::get_instance())
 		return 1;
 	
-
-	ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
+	if (CJOpenHud::get_instance()->want_input) //only give input information to imgui if we want input so it doesn't get clicked and dragged or typed in while just playing
+		ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
 
 
 	if (CJOpenHud::get_instance()->inst_game->is_focused())
@@ -62,7 +62,7 @@ LRESULT __stdcall wndproc_hook(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 		}
 	}
 
-	if (CJOpenHud::get_instance()->give_cursor)
+	if (CJOpenHud::get_instance()->want_input)
 		return 1;
 
 	return CallWindowProc(CJOpenHud::get_instance()->inst_input->p_wndproc, hWnd, uMsg, wParam, lParam);

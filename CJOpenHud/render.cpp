@@ -27,7 +27,90 @@ HRESULT __stdcall Reset_Hook(LPDIRECT3DDEVICE9 pDevice, D3DPRESENT_PARAMETERS* p
 	openhud->inst_render->create_objects(pDevice);
 	return rval;
 }
+void imgui_easy_theming(ImVec4 color_for_text, ImVec4 color_for_head, ImVec4 color_for_area, ImVec4 color_for_body, ImVec4 color_for_pops)
+{
+	ImGuiStyle& style = ImGui::GetStyle();
 
+	style.Colors[ImGuiCol_Text] = ImVec4(color_for_text.x, color_for_text.y, color_for_text.z, 1.00f);
+	style.Colors[ImGuiCol_TextDisabled] = ImVec4(color_for_text.x, color_for_text.y, color_for_text.z, 0.58f);
+	style.Colors[ImGuiCol_WindowBg] = ImVec4(color_for_body.x, color_for_body.y, color_for_body.z, 0.95f);
+	//style.Colors[ImGuiCol_ChildWindowBg] = ImVec4(color_for_area.x, color_for_area.y, color_for_area.z, 0.58f);
+	style.Colors[ImGuiCol_Border] = ImVec4(color_for_body.x, color_for_body.y, color_for_body.z, 0.00f);
+	style.Colors[ImGuiCol_BorderShadow] = ImVec4(color_for_body.x, color_for_body.y, color_for_body.z, 0.00f);
+	style.Colors[ImGuiCol_FrameBg] = ImVec4(color_for_area.x, color_for_area.y, color_for_area.z, 1.00f);
+	style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 0.78f);
+	style.Colors[ImGuiCol_FrameBgActive] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 1.00f);
+	style.Colors[ImGuiCol_TitleBg] = ImVec4(color_for_area.x, color_for_area.y, color_for_area.z, 1.00f);
+	style.Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(color_for_area.x, color_for_area.y, color_for_area.z, 0.75f);
+	style.Colors[ImGuiCol_TitleBgActive] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 1.00f);
+	style.Colors[ImGuiCol_MenuBarBg] = ImVec4(color_for_area.x, color_for_area.y, color_for_area.z, 0.47f);
+
+	style.Colors[ImGuiCol_ScrollbarBg] = ImVec4(color_for_area.x, color_for_area.y, color_for_area.z, 1.00f);
+	style.Colors[ImGuiCol_ScrollbarGrab] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 0.78f);
+	style.Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 0.78f);
+	style.Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 1.00f);
+	//style.Colors[ImGuiCol_ComboBg] = ImVec4(color_for_area.x, color_for_area.y, color_for_area.z, 1.00f);
+
+	style.Colors[ImGuiCol_CheckMark] = ImColor(158, 151, 169, 255).Value;
+	style.Colors[ImGuiCol_SliderGrab] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 0.50f);
+	style.Colors[ImGuiCol_SliderGrabActive] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 1.00f);
+	style.Colors[ImGuiCol_Button] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 0.50f);
+	style.Colors[ImGuiCol_ButtonHovered] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 0.86f);
+	style.Colors[ImGuiCol_ButtonActive] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 1.00f);
+	style.Colors[ImGuiCol_Header] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 0.76f);
+	style.Colors[ImGuiCol_HeaderHovered] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 0.86f);
+	style.Colors[ImGuiCol_HeaderActive] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 1.00f);
+	style.Colors[ImGuiCol_Tab] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 0.76f);
+	style.Colors[ImGuiCol_TabHovered] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 0.86f);
+	style.Colors[ImGuiCol_TabActive] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 1.00f);
+	//	style.Colors[ImGuiCol_Column] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 0.32f);
+	//	style.Colors[ImGuiCol_ColumnHovered] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 0.78f);
+	//	style.Colors[ImGuiCol_ColumnActive] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 1.00f);
+	style.Colors[ImGuiCol_ResizeGrip] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 0.15f);
+	style.Colors[ImGuiCol_ResizeGripHovered] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 0.78f);
+	style.Colors[ImGuiCol_ResizeGripActive] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 1.00f);
+	//	style.Colors[ImGuiCol_CloseButton] = ImVec4(color_for_text.x, color_for_text.y, color_for_text.z, 0.16f);
+	//	style.Colors[ImGuiCol_CloseButtonHovered] = ImVec4(color_for_text.x, color_for_text.y, color_for_text.z, 0.39f);
+	//	style.Colors[ImGuiCol_CloseButtonActive] = ImVec4(color_for_text.x, color_for_text.y, color_for_text.z, 1.00f);
+	style.Colors[ImGuiCol_PlotLines] = ImVec4(color_for_text.x, color_for_text.y, color_for_text.z, 0.63f);
+	style.Colors[ImGuiCol_PlotLinesHovered] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 1.00f);
+	style.Colors[ImGuiCol_PlotHistogram] = ImVec4(color_for_text.x, color_for_text.y, color_for_text.z, 0.63f);
+	style.Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 1.00f);
+	style.Colors[ImGuiCol_TextSelectedBg] = ImColor(130, 174, 51, 255).Value;// ImVec4(color_for_head.x, color_for_head.y, color_for_head.z, 0.43f);
+	style.Colors[ImGuiCol_PopupBg] = ImVec4(color_for_pops.x, color_for_pops.y, color_for_pops.z, 0.92f);
+	style.Colors[ImGuiCol_ModalWindowDimBg] = ImColor(0, 0, 0, 150).Value;
+}
+
+
+void SetupImGuiStyle2()
+{
+	static ImVec4 color_for_text = ImVec4(.92f, .94f, .94f, 0);
+	static ImVec4 color_for_head = ImVec4(ImColor(65, 60, 73, 255).Value);
+	static ImVec4 color_for_area = ImVec4(ImColor(82, 75, 92, 255).Value);
+	static ImVec4 color_for_body = ImVec4(ImColor(0, 0, 0, 255).Value);
+	static ImVec4 color_for_pops = ImColor(40, 37, 45, 255).Value;
+
+	ImGui::GetStyle().WindowRounding = 0.0f;
+	ImGui::GetStyle().ChildRounding = 0.0f;
+	ImGui::GetStyle().FrameRounding = 0.0f;
+	ImGui::GetStyle().GrabRounding = 0.0f;
+	ImGui::GetStyle().PopupRounding = 0.0f;
+	ImGui::GetStyle().ScrollbarRounding = 0.0f;
+	ImGui::GetStyle().FramePadding = ImVec2(2, 2);
+	ImGui::GetStyle().WindowPadding = ImVec2(5, 5);
+	ImGui::GetStyle().ItemInnerSpacing = ImVec2(15, 0);
+	ImGui::GetStyle().AntiAliasedFill = true;
+	ImGui::GetStyle().AntiAliasedLines = true;
+	
+
+	static bool first_run = true;
+	if (first_run)
+	{
+		imgui_easy_theming(color_for_text, color_for_head, color_for_area, color_for_body, color_for_pops);
+		first_run = false;
+	}
+
+}
 
 void render::init_imgui(LPDIRECT3DDEVICE9 dev)
 {
@@ -41,10 +124,13 @@ void render::init_imgui(LPDIRECT3DDEVICE9 dev)
 		io.MouseDrawCursor = false;
 		ImGui_ImplWin32_Init(CJOpenHud::get_instance()->inst_game->get_window());
 		ImGui_ImplDX9_Init(dev);
-
-		io.Fonts->AddFontDefault();
+		ImFontConfig config;
+		config.SizePixels = 16;
+		io.Fonts->AddFontDefault(&config);
 		ImGui_ImplDX9_CreateDeviceObjects();
 		imgui_initialized = true;
+
+		SetupImGuiStyle2();
 	}
 	dev->SetRenderState(D3DRS_COLORWRITEENABLE, 0xFFFFFFF);
 }
@@ -55,7 +141,7 @@ void render::endscene(LPDIRECT3DDEVICE9 dev)
 	auto& io = ImGui::GetIO();
 
 	CJOpenHud* openhud = CJOpenHud::get_instance();
-	if (ImGui::GetIO().WantCaptureKeyboard || ImGui::GetIO().WantCaptureMouse || openhud->give_cursor)
+	if (openhud->want_input)
 		io.MouseDrawCursor = true;
 	else
 		io.MouseDrawCursor = false;

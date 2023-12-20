@@ -171,6 +171,7 @@
     <ClInclude Include="ui_settings.h" />
     <ClInclude Include="ui_velocity.h" />
     <ClInclude Include="ui_view.h" />
+    <ClInclude Include="vectors.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CJOpenHud.cpp" />
@@ -198,6 +199,7 @@
     <ClCompile Include="ui_settings.cpp" />
     <ClCompile Include="ui_velocity.cpp" />
     <ClCompile Include="ui_view.cpp" />
+    <ClCompile Include="vectors.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

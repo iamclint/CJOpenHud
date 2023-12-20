@@ -37,7 +37,7 @@ public:
 	
 
 	bool exit = false;
-	bool give_cursor = false;
+	bool want_input = false;
 	static std::shared_ptr<CJOpenHud> inst_CJOpenHud;
 	static CJOpenHud* get_instance();
 };
