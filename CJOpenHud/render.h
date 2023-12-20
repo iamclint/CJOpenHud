@@ -16,6 +16,6 @@ public:
 
 private:
 	bool imgui_initialized = false;
-	std::vector <RenderCallback> callbacks_render;
+	std::vector<RenderCallback> callbacks_render{};
 };
 

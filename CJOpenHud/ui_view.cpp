@@ -4,11 +4,7 @@
 
 void ui_view::render()
 {
-	if (!ImGui::Begin("test window"))
-	{
-		ImGui::End();
-		return;
-	}
+	ImGui::Begin("test window");
 	ImGui::Button("test button");
 	ImGui::End();
 }

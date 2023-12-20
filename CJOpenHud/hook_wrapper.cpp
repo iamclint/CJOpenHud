@@ -1,12 +1,5 @@
 #include "hook_wrapper.h"
 
-namespace Zeal
-{
-	namespace Memory
-	{
-		hook_wrapper Hooks;
-	}
-}
 void hook::replace(int addr, int dest)
 {
 	if (*(BYTE*)addr == 0xE9 || *(BYTE*)addr == 0xE8)

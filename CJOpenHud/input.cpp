@@ -3,11 +3,18 @@
 #include "CJOpenHud.h"
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-
-input::input(CJOpenHud* pinst_openhud)
+HWND WINAPI get_foreground_window()
 {
-	//update the wndproc hook on init
-	update_wndproc(pinst_openhud->inst_game->get_window());
+	CJOpenHud* openhud = CJOpenHud::get_instance();
+	HWND orig = openhud->inst_hooks->hook_map["GetForegroundWindow"]->original(get_foreground_window)();
+	if (openhud->give_cursor)
+		return 0; //tell the game that it isn't the foreground window
+	return orig;
+}
+
+input::input(CJOpenHud* openhud)
+{
+	openhud->inst_hooks->Add("GetForegroundWindow", GetProcAddress(GetModuleHandleA("user32.dll"), "GetForegroundWindow"), get_foreground_window, hook_type_detour);
 }
 
 input::~input()
@@ -28,6 +35,7 @@ bool input::handle_key(UINT key_code, UINT state)
 			return true;
 		if (state == WM_KEYUP)
 		{
+			
 			CJOpenHud::get_instance()->give_cursor = !CJOpenHud::get_instance()->give_cursor;
 			return true;
 		}
@@ -39,6 +47,7 @@ LRESULT __stdcall wndproc_hook(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 {
 	if (!CJOpenHud::get_instance())
 		return 1;
+	
 
 	ImGui_ImplWin32_WndProcHandler(hWnd, uMsg, wParam, lParam);
 
@@ -47,6 +56,7 @@ LRESULT __stdcall wndproc_hook(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 	{
 		if (uMsg == WM_KEYUP || uMsg == WM_KEYDOWN)
 		{
+			
 			if (CJOpenHud::get_instance()->inst_input->handle_key(wParam, uMsg))
 				return 1; //the key was handled and blocked by the handle key function
 		}

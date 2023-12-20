@@ -12,9 +12,9 @@ void init_graphics_stub()
 HRESULT __stdcall EndScene_Hook(LPDIRECT3DDEVICE9 dev)
 {
 	CJOpenHud* openhud = CJOpenHud::get_instance();
-	auto orig= openhud->inst_hooks->hook_map["EndScene"]->original(EndScene_Hook);
+	auto orig= openhud->inst_hooks->hook_map["EndScene"]->original(EndScene_Hook)(dev);
 	openhud->inst_render->endscene(dev);
-	return orig(dev);
+	return orig;
 }
 
 HRESULT __stdcall Reset_Hook(LPDIRECT3DDEVICE9 pDevice, D3DPRESENT_PARAMETERS* pPresentationParameters)
@@ -52,12 +52,14 @@ void render::init_imgui(LPDIRECT3DDEVICE9 dev)
 void render::endscene(LPDIRECT3DDEVICE9 dev)
 {
 	init_imgui(dev);
-
 	auto& io = ImGui::GetIO();
-	if (ImGui::GetIO().WantCaptureKeyboard || ImGui::GetIO().WantCaptureMouse)
+
+	CJOpenHud* openhud = CJOpenHud::get_instance();
+	if (ImGui::GetIO().WantCaptureKeyboard || ImGui::GetIO().WantCaptureMouse || openhud->give_cursor)
 		io.MouseDrawCursor = true;
 	else
 		io.MouseDrawCursor = false;
+
 	ImGui_ImplDX9_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 
@@ -103,8 +105,10 @@ void render::init_graphics()
 		{
 			imgui_initialized = false;
 			::memcpy(g_methodsTable, *(uint32_t**)(openhud->inst_game->get_device()), 119 * sizeof(uint32_t));
-			openhud->inst_hooks->Add("EndScene", g_methodsTable[42], EndScene_Hook, hook_type_replace_call);
-			openhud->inst_hooks->Add("Reset", g_methodsTable[16], Reset_Hook, hook_type_replace_call);
+			openhud->inst_hooks->Add("EndScene", g_methodsTable[42], EndScene_Hook, hook_type_detour);
+			openhud->inst_hooks->Add("Reset", g_methodsTable[16], Reset_Hook, hook_type_detour);
+			//update the wndproc hook on init
+			openhud->inst_input->update_wndproc(openhud->inst_game->get_window());
 		}
 	}
 }

@@ -13,6 +13,7 @@
 #include "imgui-docking/backends/imgui_impl_dx9.h"
 #include "hook_wrapper.h"
 #include "memory.h"
+
 extern "C" {
 	bool __declspec(dllexport) __stdcall RIB_Main(int a, int b);
 }
@@ -23,16 +24,16 @@ public:
 	CJOpenHud();
 	~CJOpenHud();
 
-	std::shared_ptr<input> inst_input = nullptr;
-	std::shared_ptr<render> inst_render = nullptr;
-	std::shared_ptr<game> inst_game = nullptr;
-	std::shared_ptr<hook_wrapper> inst_hooks = nullptr;
+	std::shared_ptr<input> inst_input;
+	std::shared_ptr<render> inst_render;
+	std::shared_ptr<game> inst_game;
+	std::shared_ptr<hook_wrapper> inst_hooks;
 
 
-	std::shared_ptr<ui_position> inst_ui_position = nullptr;
-	std::shared_ptr<ui_velocity> inst_ui_velocity = nullptr;
-	std::shared_ptr<ui_view> inst_ui_view = nullptr;
-	std::shared_ptr<ui_settings> inst_ui_settings = nullptr;
+	std::shared_ptr<ui_position> inst_ui_position;
+	std::shared_ptr<ui_velocity> inst_ui_velocity;
+	std::shared_ptr<ui_view> inst_ui_view;
+	std::shared_ptr<ui_settings> inst_ui_settings;
 	
 
 	bool exit = false;

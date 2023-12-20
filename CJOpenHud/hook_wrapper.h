@@ -5,7 +5,7 @@
 #include "polyhook2/Enums.hpp"
 #include "memory.h"
 #include <unordered_map>
-
+#include <string>
 #pragma comment(lib, "Ws2_32.lib")
 #pragma comment(lib, "psapi.lib")
 #pragma comment(lib, "d3dx9/d3dx9.lib")
@@ -67,6 +67,7 @@ public: //methods
 	}
 	template<typename T>
 	T original(T fnType) {
+		czVOID(fnType);
 		return (T)trampoline;
 	}
 	void rehook();
@@ -79,19 +80,32 @@ public: //variables
 class hook_wrapper
 {
 public:
-	std::map<std::string, hook*> hook_map{};
+	std::unordered_map<std::string, hook*> hook_map;
 	template<typename X, typename T>
-	hook* Add(std::string name, X addr, T fnc, hook_type_ type)
+	hook* Add(const std::string name, X addr, T fnc, hook_type_ type)
 	{
 		hook* x = new hook(addr, fnc, type);
-		hook_map[name] = x;
-		x->hook_type = type;
+		if (x)
+		{
+			hook_map[name] = x;
+			x->hook_type = type;
+		}
+		else
+		{
+			MessageBoxA(nullptr, "Critical error", "Critical error", 0);
+		}
 		return x;
 	}
+	hook_wrapper() = default;
 	~hook_wrapper()
 	{
 		for (auto& hook : hook_map)
+		{
 			hook.second->remove();
+			delete hook.second;
+		}
 	}
+	hook_wrapper(const hook_wrapper& other) = delete;
+	hook_wrapper& operator=(const hook_wrapper& other) = delete;
 };
 
