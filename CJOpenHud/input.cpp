@@ -14,31 +14,32 @@ HWND WINAPI get_foreground_window()
 
 input::input(CJOpenHud* openhud)
 {
+	window_handle = nullptr;
 	openhud->inst_hooks->Add("GetForegroundWindow", GetProcAddress(GetModuleHandleA("user32.dll"), "GetForegroundWindow"), get_foreground_window, hook_type_detour);
 }
 
 input::~input()
 {
+	CJOpenHud* openhud = CJOpenHud::get_instance();
+	if (openhud && openhud->inst_hooks)
+	{
+		openhud->inst_hooks->hook_map["GetForegroundWindow"]->remove(); //remove hook here in case of a race condition on destructors
+	}
 	SetWindowLongPtr(window_handle, GWLP_WNDPROC, (LONG_PTR)p_wndproc);
 }
 
 bool input::handle_key(UINT key_code, UINT state)
 {
+
+	for (auto &[ key, fn ] : callbacks_input)
+	{
+		if (key == key_code && fn(state)) //if the callback returns true then return true here as well so we can block the input
+			return true;
+	}
 	if (key_code == VK_ESCAPE && CJOpenHud::get_instance()->want_input)
 	{
 		CJOpenHud::get_instance()->want_input = false;
 		return true;
-	}
-	if (key_code == VK_F4)
-	{
-		if (state == WM_KEYDOWN)
-			return true;
-		if (state == WM_KEYUP)
-		{
-			
-			CJOpenHud::get_instance()->want_input = !CJOpenHud::get_instance()->want_input;
-			return true;
-		}
 	}
 	return false;
 }
@@ -67,7 +68,10 @@ LRESULT __stdcall wndproc_hook(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 	return CallWindowProc(CJOpenHud::get_instance()->inst_input->p_wndproc, hWnd, uMsg, wParam, lParam);
 }
-
+void input::add_callback(UINT key, InputCallback fn)
+{
+	callbacks_input.push_back({ key, fn });
+}
 void input::update_wndproc(HWND handle)
 {
 	if (window_handle != handle)

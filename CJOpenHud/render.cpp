@@ -6,26 +6,36 @@
 void init_graphics_stub()
 {
 	CJOpenHud* openhud = CJOpenHud::get_instance();
-	openhud->inst_render->init_graphics();
+	if (openhud && openhud->inst_render)
+		openhud->inst_render->init_graphics();
 }
 
 HRESULT __stdcall EndScene_Hook(LPDIRECT3DDEVICE9 dev)
 {
 	CJOpenHud* openhud = CJOpenHud::get_instance();
-	auto orig= openhud->inst_hooks->hook_map["EndScene"]->original(EndScene_Hook)(dev);
-	openhud->inst_render->endscene(dev);
-	return orig;
+	if (openhud && openhud->inst_hooks && openhud->inst_render)
+	{
+		auto orig = openhud->inst_hooks->hook_map["EndScene"]->original(EndScene_Hook)(dev);
+		openhud->inst_render->endscene(dev);
+		return orig;
+	}
+	return 1;
 }
 
 HRESULT __stdcall Reset_Hook(LPDIRECT3DDEVICE9 pDevice, D3DPRESENT_PARAMETERS* pPresentationParameters)
 {
 
 	CJOpenHud* openhud = CJOpenHud::get_instance();
-	auto orig = openhud->inst_hooks->hook_map["Reset"]->original(Reset_Hook);
-	openhud->inst_render->invalidate_objects(pDevice);
-	HRESULT rval = orig(pDevice, pPresentationParameters);
-	openhud->inst_render->create_objects(pDevice);
-	return rval;
+	if (openhud && openhud->inst_hooks && openhud->inst_render)
+	{
+
+		auto orig = openhud->inst_hooks->hook_map["Reset"]->original(Reset_Hook);
+		openhud->inst_render->invalidate_objects(pDevice);
+		HRESULT rval = orig(pDevice, pPresentationParameters);
+		openhud->inst_render->create_objects(pDevice);
+		return rval;
+	}
+	return 1;
 }
 void imgui_easy_theming(ImVec4 color_for_text, ImVec4 color_for_head, ImVec4 color_for_area, ImVec4 color_for_body, ImVec4 color_for_pops)
 {
@@ -209,5 +219,12 @@ render::render(CJOpenHud* openhud)
 
 render::~render() //hooks are removed when the hook wrapper is destroyed
 {
+	CJOpenHud* openhud = CJOpenHud::get_instance();
+	if (openhud && openhud->inst_hooks)
+	{
+		openhud->inst_hooks->hook_map["InitGraphics"]->remove(); //remove hook here in case of a race condition on destructors
+		openhud->inst_hooks->hook_map["EndScene"]->remove(); //remove hook here in case of a race condition on destructors
+		openhud->inst_hooks->hook_map["Reset"]->remove(); //remove hook here in case of a race condition on destructors
+	}
 	ImGui::DestroyContext();
 }

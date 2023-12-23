@@ -9,7 +9,6 @@ int main()
     //wait for the flag for exit to be set
     while (!inst_hud.exit)
         Sleep(500);
-
     //when this function returns the destructor of main will be called and all of the singletons inside it will also be destroyed and deconstructed
     return 0;
 }

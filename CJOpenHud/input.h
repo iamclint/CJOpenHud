@@ -1,5 +1,7 @@
 #pragma once
 #include <Windows.h>
+#include <functional>
+typedef std::function<bool(UINT state)> InputCallback;
 class input
 {
 public:
@@ -9,6 +11,8 @@ public:
 	WNDPROC p_wndproc = nullptr;
 	HWND window_handle;
 	void update_wndproc(HWND handle);
-	
+	void add_callback(UINT key, InputCallback fn);
+private:
+	std::vector<std::pair<UINT,InputCallback>> callbacks_input{};
 };
 
