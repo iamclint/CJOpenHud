@@ -19,17 +19,17 @@ bool CJOpenHud::bind_toggle_input(UINT key_state)
 	}
 }
 
-bool CJOpenHud::bind_close(UINT key_state)
-{
-	if (key_state == WM_KEYDOWN) //return true on key down just so nothing else receives the key down stroke
-		return true;
-	if (key_state == WM_KEYUP)
-	{
-		exit = true;
-		return true;
-	}
-
-}
+//bool CJOpenHud::bind_close(UINT key_state)
+//{
+//	if (key_state == WM_KEYDOWN) //return true on key down just so nothing else receives the key down stroke
+//		return true;
+//	if (key_state == WM_KEYUP)
+//	{
+//		exit = true;
+//		return true;
+//	}
+//
+//}
 CJOpenHud::CJOpenHud()
 {
 	exit = false;
@@ -45,7 +45,7 @@ CJOpenHud::CJOpenHud()
 	inst_ui_view = std::shared_ptr<ui_view>(new ui_view(this));
 
 	inst_input->add_callback(VK_F4, [this](UINT key_state) { return this->bind_toggle_input(key_state); });
-	inst_input->add_callback(VK_F5, [this](UINT key_state) { return this->bind_close(key_state); });
+	//inst_input->add_callback(VK_F5, [this](UINT key_state) { return this->bind_close(key_state); });
 }
 
 CJOpenHud::~CJOpenHud()

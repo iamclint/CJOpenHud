@@ -195,6 +195,18 @@ void render::init_graphics()
 			D3DPRESENT_PARAMETERS p;
 			current_device->Reset(&p);
 		}
+		CJOpenHud* openhud = CJOpenHud::get_instance();
+
+		if (openhud && openhud->inst_hooks) //remove the old hooks
+		{
+			if (openhud->inst_hooks->hook_map.find("InitGraphics") != openhud->inst_hooks->hook_map.end())
+				openhud->inst_hooks->hook_map["InitGraphics"]->remove();
+			if (openhud->inst_hooks->hook_map.find("EndScene") != openhud->inst_hooks->hook_map.end())
+				openhud->inst_hooks->hook_map["EndScene"]->remove();
+			if (openhud->inst_hooks->hook_map.find("Reset") != openhud->inst_hooks->hook_map.end())
+				openhud->inst_hooks->hook_map["Reset"]->remove();
+		}
+
 		current_device = openhud->inst_game->get_device();
 		uint32_t* g_methodsTable = (uint32_t*)::calloc(119, sizeof(uint32_t));
 		if (g_methodsTable)

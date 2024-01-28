@@ -76,6 +76,8 @@ void input::update_wndproc(HWND handle)
 {
 	if (window_handle != handle)
 	{
+		if (p_wndproc)
+			SetWindowLongPtr(window_handle, GWLP_WNDPROC, (LONG_PTR)p_wndproc);
 		window_handle = handle;
 		p_wndproc = (WNDPROC)(SetWindowLongPtr(window_handle, GWLP_WNDPROC, (LONG_PTR)wndproc_hook));
 	}
