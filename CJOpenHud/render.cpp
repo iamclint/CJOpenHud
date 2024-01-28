@@ -199,8 +199,6 @@ void render::init_graphics()
 
 		if (openhud && openhud->inst_hooks) //remove the old hooks
 		{
-			if (openhud->inst_hooks->hook_map.find("InitGraphics") != openhud->inst_hooks->hook_map.end())
-				openhud->inst_hooks->hook_map["InitGraphics"]->remove();
 			if (openhud->inst_hooks->hook_map.find("EndScene") != openhud->inst_hooks->hook_map.end())
 				openhud->inst_hooks->hook_map["EndScene"]->remove();
 			if (openhud->inst_hooks->hook_map.find("Reset") != openhud->inst_hooks->hook_map.end())
