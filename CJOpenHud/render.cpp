@@ -232,9 +232,12 @@ render::~render() //hooks are removed when the hook wrapper is destroyed
 	CJOpenHud* openhud = CJOpenHud::get_instance();
 	if (openhud && openhud->inst_hooks)
 	{
-		openhud->inst_hooks->hook_map["InitGraphics"]->remove(); //remove hook here in case of a race condition on destructors
-		openhud->inst_hooks->hook_map["EndScene"]->remove(); //remove hook here in case of a race condition on destructors
-		openhud->inst_hooks->hook_map["Reset"]->remove(); //remove hook here in case of a race condition on destructors
+		if (openhud->inst_hooks->hook_map.count("InitGraphics") > 0)
+			openhud->inst_hooks->hook_map["InitGraphics"]->remove(); //remove hook here in case of a race condition on destructors
+		if (openhud->inst_hooks->hook_map.count("EndScene") > 0)
+			openhud->inst_hooks->hook_map["EndScene"]->remove(); //remove hook here in case of a race condition on destructors
+		if (openhud->inst_hooks->hook_map.count("Reset") > 0)
+			openhud->inst_hooks->hook_map["Reset"]->remove(); //remove hook here in case of a race condition on destructors
 	}
 	ImGui::DestroyContext();
 }

@@ -40,7 +40,7 @@ public:
 	bool want_input = false;
 	bool bind_toggle_input(UINT key_state);
 	bool bind_close(UINT key_state);
-	static std::shared_ptr<CJOpenHud> inst_CJOpenHud;
+	static CJOpenHud* inst_CJOpenHud;
 	static CJOpenHud* get_instance();
 };
 

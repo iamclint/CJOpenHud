@@ -7,7 +7,7 @@ bool __stdcall RIB_Main(int a, int b)
 	return true;
 }
 
-std::shared_ptr<CJOpenHud> CJOpenHud::inst_CJOpenHud = nullptr;
+CJOpenHud* CJOpenHud::inst_CJOpenHud = nullptr;
 bool CJOpenHud::bind_toggle_input(UINT key_state)
 {
 	if (key_state == WM_KEYDOWN) //return true on key down just so nothing else receives the key down stroke
@@ -33,7 +33,7 @@ bool CJOpenHud::bind_toggle_input(UINT key_state)
 CJOpenHud::CJOpenHud()
 {
 	exit = false;
-	inst_CJOpenHud = std::shared_ptr<CJOpenHud>(this);
+	inst_CJOpenHud = this;
 	inst_hooks = std::shared_ptr<hook_wrapper>(new hook_wrapper);
 	inst_game = std::shared_ptr<game>(new game());
 	inst_input = std::shared_ptr<input>(new input(this));
@@ -50,10 +50,10 @@ CJOpenHud::CJOpenHud()
 
 CJOpenHud::~CJOpenHud()
 {
-	inst_CJOpenHud = nullptr;
+	delete inst_CJOpenHud;
 }
 
 CJOpenHud* CJOpenHud::get_instance()
 {
-	return inst_CJOpenHud.get();
+	return inst_CJOpenHud;
 }

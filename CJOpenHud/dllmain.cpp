@@ -2,10 +2,10 @@
 #include "pch.h"
 #include "CJOpenHud.h"
 #include <thread>
+
 int main()
 {
-    CJOpenHud inst_hud{};
-
+    CJOpenHud inst_hud;
     //wait for the flag for exit to be set
     while (!inst_hud.exit)
         Sleep(500);
@@ -29,8 +29,11 @@ BOOL APIENTRY DllMain( HMODULE hModule,
         break;
     }
     case DLL_THREAD_ATTACH:
+        break;
     case DLL_THREAD_DETACH:
+        break;
     case DLL_PROCESS_DETACH:
+        CJOpenHud::get_instance()->exit = true;
         break;
     }
     return TRUE;
