@@ -50,7 +50,6 @@ CJOpenHud::CJOpenHud()
 
 CJOpenHud::~CJOpenHud()
 {
-	delete inst_CJOpenHud;
 }
 
 CJOpenHud* CJOpenHud::get_instance()
