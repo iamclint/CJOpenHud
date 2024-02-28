@@ -8,9 +8,6 @@
 #include <string>
 #pragma comment(lib, "Ws2_32.lib")
 #pragma comment(lib, "psapi.lib")
-#pragma comment(lib, "d3dx9/d3dx9.lib")
-#pragma comment(lib, "lib/polyhook_2.lib")
-#pragma comment(lib, "lib/Zydis.lib")
 #define czVOID(c) (void)c
 enum hook_type_
 {
