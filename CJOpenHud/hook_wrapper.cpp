@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "hook_wrapper.h"
 
 void hook::replace(int addr, int dest)
