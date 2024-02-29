@@ -30,9 +30,9 @@ void ui_position::render()
 	ImGui::End();
 }
 
-ui_position::ui_position(CJOpenHud* hud)
+ui_position::ui_position()
 {
-	hud->inst_render->add_callback([this]() { this->render(); });
+	
 }
 
 ui_position::~ui_position()

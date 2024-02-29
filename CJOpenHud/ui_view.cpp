@@ -29,9 +29,9 @@ void ui_view::render()
 	ImGui::EndTable();
 	ImGui::End();
 }
-ui_view::ui_view(CJOpenHud* hud)
+ui_view::ui_view()
 {
-	hud->inst_render->add_callback([this]() { this->render(); });
+	
 }
 ui_view::~ui_view()
 {

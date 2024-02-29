@@ -13,6 +13,7 @@
 #include "imgui-docking/backends/imgui_impl_dx9.h"
 #include "hook_wrapper.h"
 #include "memory.h"
+#include "ui_menu.h"
 
 extern "C" {
 	bool __declspec(dllexport) __stdcall RIB_Main(int a, int b);
@@ -34,6 +35,7 @@ public:
 	std::shared_ptr<ui_velocity> inst_ui_velocity;
 	std::shared_ptr<ui_view> inst_ui_view;
 	std::shared_ptr<ui_settings> inst_ui_settings;
+	std::shared_ptr<ui_menu> inst_ui_menu;
 	
 
 	bool exit = false;
