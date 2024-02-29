@@ -2,7 +2,7 @@
 class ui_view
 {
 public:
-	ui_view(class CJOpenHud* hud);
+	ui_view();
 	~ui_view();
 	void render();
 };

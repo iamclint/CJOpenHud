@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Render.h"
 #include "CJOpenHud.h"
+#include "bahnschrift.c"
 
 
 void init_graphics_stub()
@@ -134,9 +135,9 @@ void render::init_imgui(LPDIRECT3DDEVICE9 dev)
 		io.MouseDrawCursor = false;
 		ImGui_ImplWin32_Init(CJOpenHud::get_instance()->inst_game->get_window());
 		ImGui_ImplDX9_Init(dev);
-		ImFontConfig config;
-		config.SizePixels = 16;
-		io.Fonts->AddFontDefault(&config);
+
+		io.Fonts->AddFontFromMemoryTTF((void*)(_acbahnschrift), sizeof(_acbahnschrift) - 1, 24.f);
+		
 		ImGui_ImplDX9_CreateDeviceObjects();
 		imgui_initialized = true;
 

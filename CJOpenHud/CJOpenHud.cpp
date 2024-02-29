@@ -40,9 +40,10 @@ CJOpenHud::CJOpenHud()
 	inst_render = std::shared_ptr<render>(new render(this));
 	
 	inst_ui_settings = std::shared_ptr<ui_settings>(new ui_settings(this));
-	inst_ui_position = std::shared_ptr<ui_position>(new ui_position(this));
-	inst_ui_velocity = std::shared_ptr<ui_velocity>(new ui_velocity(this));
-	inst_ui_view = std::shared_ptr<ui_view>(new ui_view(this));
+	inst_ui_position = std::shared_ptr<ui_position>(new ui_position());
+	inst_ui_velocity = std::shared_ptr<ui_velocity>(new ui_velocity());
+	inst_ui_view = std::shared_ptr<ui_view>(new ui_view());
+	inst_ui_menu = std::shared_ptr<ui_menu>(new ui_menu(this));
 
 	inst_input->add_callback(VK_F4, [this](UINT key_state) { return this->bind_toggle_input(key_state); });
 	//inst_input->add_callback(VK_F5, [this](UINT key_state) { return this->bind_close(key_state); });
