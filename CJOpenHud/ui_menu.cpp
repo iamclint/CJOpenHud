@@ -20,8 +20,6 @@ void ui_menu::menu(CJOpenHud* hud)
 		ImGui::ColorPicker4("Color Picker", &velocity_color.x);
 
 		ImGui::EndPopup();
-
-		//hud->save_configuration();
 	}
 
 	ImGui::Checkbox("Show Position", &show_position);
